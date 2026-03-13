@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Web Frontend (Next.js + Sanity)
 
-## Getting Started
+This app reads site content from Sanity and is intended to deploy on Vercel.
 
-First, run the development server:
+## What Is CMS-Driven Today
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The following sections render from Sanity data:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Homepage hero and about copy (`homepage` document)
+- Portfolio cards (`investment` documents)
+- Latest news links (`newsArticle` documents)
+- Team section (`teamMember` documents)
+- Homepage about-story preview (`about` document)
+- Homepage open roles preview (`jobPosting` documents)
+- Investments page (`investment` documents)
+- About page (`about` document)
+- Jobs page (`jobPosting` documents)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Local Development
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Start Sanity Studio:
 
-## Learn More
+   ```bash
+   cd studio
+   cp .env.example .env.local
+   npm run dev
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Start Next.js frontend:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   cd web
+   cp .env.example .env.local
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Open:
+   - Frontend: `http://localhost:3000`
+   - Studio: `http://localhost:3333`
 
-## Deploy on Vercel
+## Frontend Environment Variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Set these in `web/.env.local` locally and in Vercel Project Settings for production:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `NEXT_PUBLIC_SANITY_PROJECT_ID` (required)
+- `NEXT_PUBLIC_SANITY_DATASET` (required)
+- `NEXT_PUBLIC_SANITY_API_VERSION` (optional, defaults to `2025-03-06`)
+- `SANITY_API_READ_TOKEN` (optional; required only if dataset is private)
+- `SANITY_STUDIO_ORIGIN` (optional; used for `/studio` rewrite and Studio CTA link)
+- `SANITY_REVALIDATE_SECRET` (required for webhook revalidation)
+
+## Vercel Setup Checklist
+
+1. Ensure the Vercel project deploys the `web/` directory.
+2. Add the environment variables listed above.
+3. Redeploy after changing env vars.
+
+## Sanity Webhook For Immediate Updates
+
+The frontend caches Sanity queries and tags responses. Configure a webhook in Sanity so publishes clear cache immediately.
+
+1. In Sanity Manage, create a webhook pointing to:
+
+   `https://<your-vercel-domain>/api/revalidate?secret=<SANITY_REVALIDATE_SECRET>`
+
+2. Configure trigger events for create/update/delete and publish/unpublish.
+3. Include payload with `_type` (optional but recommended).
+4. Publish a document in Studio and verify the frontend updates without redeploy.
+
+## Notes About `/studio` Route
+
+- In development, `/studio` rewrites to `http://127.0.0.1:3333` by default.
+- In production, `/studio` rewrites only if `SANITY_STUDIO_ORIGIN` is explicitly set.
+- If you host Studio separately, set `SANITY_STUDIO_ORIGIN` to that URL.
