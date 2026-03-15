@@ -234,13 +234,19 @@ a {
   cursor: pointer;
 }
 
+.team-card-button:focus,
+.team-card-button:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 .team-card-button:hover {
   transform: translateY(-2px);
 }
 
 .team-card-surface {
   border: 0;
-  background: #fff;
+  background: transparent;
   transition: box-shadow 0.2s ease;
 }
 
@@ -253,6 +259,13 @@ a {
   aspect-ratio: 1 / 1;
   object-fit: cover;
   display: block;
+  transform: scale(1.02);
+  transform-origin: center;
+}
+
+.team-card-media {
+  overflow: hidden;
+  background: transparent;
 }
 
 .team-card-caption {
@@ -403,6 +416,13 @@ a {
   object-fit: cover;
   border: 0;
   background: #fff;
+  display: block;
+  transform: scale(1.01);
+  transform-origin: center;
+}
+
+.team-modal-side {
+  overflow: hidden;
 }
 
 .team-modal-main p {
