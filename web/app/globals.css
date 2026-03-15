@@ -21,10 +21,12 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 30%, rgba(100, 116, 139, 0.2) 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 30%, rgba(100, 116, 139, 0.4) 100%);
+  background-attachment: fixed;
   color: var(--avp-text);
   font-family: var(--mockup-body);
   line-height: 1.6;
+  min-height: 100vh;
 }
 
 a {
