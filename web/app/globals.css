@@ -719,7 +719,7 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 2rem;
+  min-height: 3rem;
   white-space: nowrap;
   font-family: var(--mockup-headline);
   font-size: 1.18rem;
@@ -728,7 +728,7 @@ a {
 }
 
 .mockup-ticker-item img {
-  max-height: 2rem;
+  max-height: 3rem;
   width: auto;
   object-fit: contain;
   display: block;
