@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { PortableTextBlock, portableTextToParagraphs } from "@/lib/portableText";
 
@@ -45,7 +46,13 @@ export function TeamDirectory({ team }: { team: TeamMember[] }) {
     <>
       <section className="team-card-grid team-card-grid-compact">
         {team.map((member) => (
-          <button key={member._id} type="button" className="team-card-button" onClick={() => setActiveId(member._id)}>
+          <button
+            key={member._id}
+            type="button"
+            className="team-card-button"
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={() => setActiveId(member._id)}
+          >
             <article className="team-card team-card-surface">
               <div className="team-card-media">
                 {member.photoUrl ? (
@@ -62,47 +69,55 @@ export function TeamDirectory({ team }: { team: TeamMember[] }) {
         ))}
       </section>
 
-      {activeMember ? (
-        <div className="team-modal-backdrop" role="dialog" aria-modal="true" onClick={() => setActiveId(null)}>
-          <div className="team-modal" onClick={(event) => event.stopPropagation()}>
-            <header className="team-modal-header">
-              <h2>
-                {activeMember.name || "Unnamed"}
-                {activeMember.role ? <span> - {activeMember.role}</span> : null}
-              </h2>
-              <button type="button" className="team-modal-close" onClick={() => setActiveId(null)} aria-label="Close">
-                Close
-              </button>
-            </header>
+      {activeMember
+        ? createPortal(
+            <div className="team-modal-backdrop" role="dialog" aria-modal="true" onClick={() => setActiveId(null)}>
+              <div className="team-modal" onClick={(event) => event.stopPropagation()}>
+                <header className="team-modal-header">
+                  <h2>
+                    {activeMember.name || "Unnamed"}
+                    {activeMember.role ? <span> - {activeMember.role}</span> : null}
+                  </h2>
+                  <button
+                    type="button"
+                    className="team-modal-close"
+                    onClick={() => setActiveId(null)}
+                    aria-label="Close"
+                  >
+                    Close
+                  </button>
+                </header>
 
-            <div className="team-modal-body">
-              <aside className="team-modal-side">
-                {activeMember.photoUrl ? (
-                  <img src={activeMember.photoUrl} alt={activeMember.name || "Team member"} />
-                ) : (
-                  <div className="avatar-fallback large">
-                    {(activeMember.name || "AVP").slice(0, 2).toUpperCase()}
+                <div className="team-modal-body">
+                  <aside className="team-modal-side">
+                    {activeMember.photoUrl ? (
+                      <img src={activeMember.photoUrl} alt={activeMember.name || "Team member"} />
+                    ) : (
+                      <div className="avatar-fallback large">
+                        {(activeMember.name || "AVP").slice(0, 2).toUpperCase()}
+                      </div>
+                    )}
+                    <div className="team-contact-links">
+                      {activeMember.linkedin ? (
+                        <a href={activeMember.linkedin} target="_blank" rel="noreferrer">
+                          LinkedIn
+                        </a>
+                      ) : null}
+                      {activeMember.email ? <a href={`mailto:${activeMember.email}`}>Email</a> : null}
+                    </div>
+                  </aside>
+
+                  <div className="team-modal-main">
+                    {portableTextToParagraphs(activeMember.bio).map((paragraph, index) => (
+                      <p key={`${activeMember._id}-bio-${index}`}>{paragraph}</p>
+                    ))}
                   </div>
-                )}
-                <div className="team-contact-links">
-                  {activeMember.linkedin ? (
-                    <a href={activeMember.linkedin} target="_blank" rel="noreferrer">
-                      LinkedIn
-                    </a>
-                  ) : null}
-                  {activeMember.email ? <a href={`mailto:${activeMember.email}`}>Email</a> : null}
                 </div>
-              </aside>
-
-              <div className="team-modal-main">
-                {portableTextToParagraphs(activeMember.bio).map((paragraph, index) => (
-                  <p key={`${activeMember._id}-bio-${index}`}>{paragraph}</p>
-                ))}
               </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
+            </div>,
+            document.body,
+          )
+        : null}
     </>
   );
 }
