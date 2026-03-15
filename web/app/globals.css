@@ -1,28 +1,435 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --font-geist-sans: "Helvetica Neue", Arial, sans-serif;
-  --font-geist-mono: "SFMono-Regular", Menlo, Consolas, monospace;
+  --avp-bg: #ffffff;
+  --avp-text: #0d0d0d;
+  --avp-muted: #666666;
+  --avp-line: #e7e7e7;
+  --avp-soft: #f7f7f7;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--avp-bg);
+  color: var(--avp-text);
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.avp-root {
+  min-height: 100vh;
+}
+
+.avp-container {
+  width: min(1220px, calc(100vw - 2rem));
+  margin: 0 auto;
+}
+
+.avp-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--avp-line);
+}
+
+.avp-nav-row {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.avp-brand {
+  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.avp-nav-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 0.95rem;
+  color: #2d2d2d;
+}
+
+.avp-nav-links a {
+  position: relative;
+  padding-bottom: 0.25rem;
+}
+
+.avp-nav-links a.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.18rem;
+  height: 2px;
+  background: #111;
+}
+
+.avp-page {
+  padding: 2rem 0 3rem;
+}
+
+.page-hero {
+  margin-bottom: 1.6rem;
+}
+
+.page-hero h1 {
+  margin: 0;
+  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.about-page {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.about-top {
+  display: grid;
+  grid-template-columns: minmax(260px, 40%) 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.about-summary {
+  position: sticky;
+  top: 7.2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.about-summary h1 {
+  margin: 0;
+  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
+  line-height: 1.32;
+  letter-spacing: 0.01em;
+}
+
+.about-logo {
+  width: min(250px, 78%);
+  height: auto;
+  object-fit: contain;
+}
+
+.about-logo-fallback {
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--avp-line);
+  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 1.7rem;
+  letter-spacing: 0.08em;
+}
+
+.about-subtitle {
+  margin: 0;
+  color: var(--avp-muted);
+  line-height: 1.6;
+}
+
+.about-callouts ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.95rem;
+  color: #1d1d1d;
+  line-height: 1.62;
+}
+
+.sector-section {
+  border-top: 1px solid var(--avp-line);
+  padding-top: 1.75rem;
+}
+
+.sector-section h2 {
+  margin: 0 0 1rem;
+  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 1.25rem;
+}
+
+.sector-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.sector-card {
+  border: 1px solid var(--avp-line);
+  background: var(--avp-soft);
+  padding: 1.05rem;
+}
+
+.sector-card h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+}
+
+.sector-card p {
+  margin: 0;
+  line-height: 1.55;
+  color: #2f2f2f;
+  font-size: 0.94rem;
+}
+
+.team-grid,
+.investment-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.team-card,
+.investment-logo-card {
+  border: 1px solid var(--avp-line);
+  background: #fff;
+  min-height: 120px;
+}
+
+.team-card-link,
+.investment-logo-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.team-card-link:hover,
+.investment-logo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.team-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-bottom: 1px solid var(--avp-line);
+}
+
+.team-card p {
+  margin: 0;
+  padding: 0.7rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.avatar-fallback {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  background: #efefef;
+  color: #222;
+  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+}
+
+.avatar-fallback.large {
+  border: 1px solid var(--avp-line);
+}
+
+.team-details,
+.investment-details {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1.15rem;
+}
+
+.team-detail,
+.investment-detail {
+  border: 1px solid var(--avp-line);
+  padding: 1.2rem;
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: 240px 1fr;
+  scroll-margin-top: 7rem;
+}
+
+.team-detail-side img,
+.investment-side img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border: 1px solid var(--avp-line);
+  background: #fff;
+}
+
+.team-contact-links,
+.investment-side {
+  margin-top: 0.85rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.team-contact-links a,
+.investment-side a {
+  color: #0f4b9e;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.team-detail-main h2,
+.investment-main h2 {
+  margin: 0 0 0.75rem;
+  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.35rem;
+}
+
+.team-detail-main h2 span {
+  margin-left: 0.5rem;
+  color: var(--avp-muted);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.team-detail-main p,
+.investment-main p {
+  margin: 0 0 0.7rem;
+  line-height: 1.6;
+}
+
+.logo-fallback {
+  width: 100%;
+  min-height: 140px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--avp-line);
+  background: #fafafa;
+  padding: 0.5rem;
+  text-align: center;
+  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+}
+
+.status {
+  margin: 0;
+  color: #3a3a3a;
+}
+
+.investment-logo-card {
+  display: grid;
+  place-items: center;
+  padding: 0.5rem;
+  background: #fff;
+}
+
+.investment-logo-card img {
+  width: 100%;
+  max-height: 80px;
+  object-fit: contain;
+}
+
+.investment-logo-card span {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #3a3a3a;
+}
+
+.related-news {
+  margin-top: 1rem;
+  border-top: 1px solid var(--avp-line);
+  padding-top: 0.9rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.related-news-item h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.related-news-item p {
+  margin: 0.25rem 0 0;
+  color: var(--avp-muted);
+  font-size: 0.88rem;
+}
+
+.news-list-page {
+  display: grid;
+  gap: 0.95rem;
+}
+
+.news-row {
+  border: 1px solid var(--avp-line);
+  padding: 1rem 1rem 0.9rem;
+}
+
+.news-row h2 {
+  margin: 0;
+  font-size: 1.12rem;
+  line-height: 1.4;
+}
+
+.news-meta {
+  margin: 0.45rem 0 0;
+  color: var(--avp-muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 1080px) {
+  .team-grid,
+  .investment-logo-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans);
+@media (max-width: 860px) {
+  .avp-nav-row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.85rem 0;
+  }
+
+  .avp-nav-links {
+    flex-wrap: wrap;
+    gap: 0.7rem 1rem;
+  }
+
+  .about-top {
+    grid-template-columns: 1fr;
+    gap: 1.35rem;
+  }
+
+  .about-summary {
+    position: static;
+  }
+
+  .sector-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-grid,
+  .investment-logo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .team-detail,
+  .investment-detail {
+    grid-template-columns: 1fr;
+  }
 }
