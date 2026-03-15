@@ -239,7 +239,7 @@ a {
 }
 
 .team-card-surface {
-  border: 1px solid var(--avp-line);
+  border: 0;
   background: #fff;
   transition: box-shadow 0.2s ease;
 }
@@ -257,7 +257,7 @@ a {
 
 .team-card-caption {
   padding: 0.5rem 0.55rem;
-  border-top: 1px solid var(--avp-line);
+  border-top: 0;
   background: #fff;
 }
 
@@ -401,7 +401,7 @@ a {
   width: 100%;
   height: auto;
   object-fit: cover;
-  border: 1px solid var(--avp-line);
+  border: 0;
   background: #fff;
 }
 
