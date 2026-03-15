@@ -644,12 +644,12 @@ a {
 
 .mockup-hero-background-logo {
   --hero-logo-shift-y: 0px;
-  --hero-logo-scale: 1.6;
+  --hero-logo-scale: 1.22;
   position: absolute;
   top: 50%;
   left: 50%;
   width: min(680px, 68vw);
-  transform: translate(-50%, calc(-53% + var(--hero-logo-shift-y))) scale(var(--hero-logo-scale));
+  transform: translate(-50%, calc(-50% + var(--hero-logo-shift-y))) scale(var(--hero-logo-scale));
   will-change: transform;
   opacity: 0.04;
   mix-blend-mode: multiply;
