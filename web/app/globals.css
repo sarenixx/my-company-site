@@ -700,12 +700,15 @@ a {
 }
 
 .mockup-ticker-track {
+  --ticker-gap: 3.15rem;
   display: flex;
   align-items: center;
-  gap: 3.15rem;
+  gap: var(--ticker-gap);
+  /* Ensure the duplicated list aligns exactly at -50% without a visible hitch. */
+  padding-right: var(--ticker-gap);
   width: max-content;
-  min-width: 200%;
   animation: mockup-scroll-left 40s linear infinite;
+  will-change: transform;
 }
 
 .mockup-ticker-wrapper:hover .mockup-ticker-track {
@@ -939,7 +942,7 @@ a {
   }
 
   .mockup-ticker-track {
-    gap: 1.8rem;
+    --ticker-gap: 1.8rem;
   }
 
   .mockup-ticker-item {
