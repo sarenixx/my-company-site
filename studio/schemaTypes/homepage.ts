@@ -31,6 +31,11 @@ export const homepageType = defineType({
       type: 'image'
     }),
     defineField({
+      name: 'heroImageUrl',
+      title: 'Hero Image URL (External)',
+      type: 'url'
+    }),
+    defineField({
       name: 'aboutHeadline',
       title: 'About Headline',
       type: 'string'

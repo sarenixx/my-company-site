@@ -41,6 +41,11 @@ export const newsArticle = defineType({
       title: 'External URL',
       type: 'url',
     }),
+    defineField({
+      name: 'sourcePublication',
+      title: 'Source Publication',
+      type: 'string',
+    }),
   ],
   preview: {
     select: {title: 'title', subtitle: 'publishedAt'},

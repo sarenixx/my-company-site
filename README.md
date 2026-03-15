@@ -57,3 +57,29 @@ What it checks:
 - Vercel CLI auth is available
 - Public revalidate endpoint rejects missing secret (`401`)
 - Revalidate endpoint accepts the configured secret (`200`)
+
+## AVP Content Migration
+
+To sync About, Team, Investments, and News content from `https://www.avp.vc/` into Sanity:
+
+```bash
+python3 scripts/migrate-avp-content-to-sanity.py
+```
+
+Dry run (parse only, no writes):
+
+```bash
+python3 scripts/migrate-avp-content-to-sanity.py --dry-run
+```
+
+Verify-only (print current Sanity counts):
+
+```bash
+python3 scripts/migrate-avp-content-to-sanity.py --verify-only
+```
+
+Notes:
+
+- The script is idempotent (`createOrReplace` with deterministic IDs).
+- It resolves Sanity auth from `SANITY_AUTH_TOKEN` / `SANITY_API_WRITE_TOKEN`, or your current local Sanity CLI session.
+- Jobs migration is intentionally excluded in this pass.

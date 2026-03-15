@@ -23,6 +23,11 @@ export const investment = defineType({
       options: {hotspot: true},
     }),
     defineField({
+      name: 'logoExternalUrl',
+      title: 'Logo URL (External)',
+      type: 'url',
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'text',

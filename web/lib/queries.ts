@@ -2,7 +2,7 @@ import groq from "groq";
 
 export const homepageQuery = groq`
   {
-    "homepage": *[_type == "homepage"][0]{
+    "homepage": *[_type == "homepage" && _id == "homepage-main"][0]{
       title,
       subtitle,
       buttonText,
@@ -10,7 +10,7 @@ export const homepageQuery = groq`
       aboutHeadline,
       aboutParagraph,
       aboutPoints,
-      "heroImageUrl": heroImage.asset->url
+      "heroImageUrl": coalesce(heroImage.asset->url, heroImageUrl)
     },
     "investments": *[_type == "investment"] | order(_createdAt desc)[0...6]{
       _id,
@@ -18,12 +18,13 @@ export const homepageQuery = groq`
       website,
       description,
       status,
-      "logoUrl": logo.asset->url
+      "logoUrl": coalesce(logo.asset->url, logoExternalUrl)
     },
     "news": *[_type == "newsArticle"] | order(coalesce(publishedAt, _createdAt) desc)[0...4]{
       _id,
       title,
       excerpt,
+      sourcePublication,
       externalUrl,
       publishedAt
     },
@@ -32,9 +33,9 @@ export const homepageQuery = groq`
       name,
       role,
       bio,
-      "photoUrl": photo.asset->url
+      "photoUrl": coalesce(photo.asset->url, photoExternalUrl)
     },
-    "aboutPage": *[_type == "about"] | order(_updatedAt desc)[0]{
+    "aboutPage": *[_type == "about" && _id == "about-main"][0]{
       _id,
       title,
       content
@@ -57,12 +58,12 @@ export const investmentsQuery = groq`
     website,
     description,
     status,
-    "logoUrl": logo.asset->url
+    "logoUrl": coalesce(logo.asset->url, logoExternalUrl)
   }
 `;
 
 export const aboutPageQuery = groq`
-  *[_type == "about"] | order(_updatedAt desc)[0]{
+  *[_type == "about" && _id == "about-main"][0]{
     _id,
     title,
     content

@@ -8,6 +8,9 @@ export const teamMember = defineType({
     defineField({name: 'name', title: 'Name', type: 'string', validation: (Rule) => Rule.required()}),
     defineField({name: 'role', title: 'Role', type: 'string'}),
     defineField({name: 'photo', title: 'Photo', type: 'image', options: {hotspot: true}}),
+    defineField({name: 'photoExternalUrl', title: 'Photo URL (External)', type: 'url'}),
+    defineField({name: 'linkedin', title: 'LinkedIn URL', type: 'url'}),
+    defineField({name: 'email', title: 'Email', type: 'string'}),
     defineField({name: 'bio', title: 'Bio', type: 'array', of: [{type: 'block'}]}),
   ],
 })
