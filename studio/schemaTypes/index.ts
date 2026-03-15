@@ -3,7 +3,7 @@ import {teamMember} from './teamMember'
 import {investment} from './investment'
 import {newsArticle} from './newsArticle'
 import {jobPosting} from './jobPosting'
-import {homepageType} from './homepage'
+import {homepage} from './homepage'
 
 export const schemaTypes = [
   about,
@@ -11,5 +11,5 @@ export const schemaTypes = [
   investment,
   newsArticle,
   jobPosting,
-  homepageType
+  homepage
 ]
