@@ -58,7 +58,7 @@ export default async function MockupPage() {
   });
 
   return (
-    <main style={{ padding: 32, maxWidth: 1100, margin: "0 auto", fontFamily: "Georgia, serif" }}>
+    <main style={{ padding: 32, maxWidth: 1100, margin: "0 auto" }}>
       <p style={{ letterSpacing: 2, textTransform: "uppercase", fontSize: 12, opacity: 0.65 }}>
         Sandbox Route / Safe To Experiment
       </p>
