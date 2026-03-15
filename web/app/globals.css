@@ -6,10 +6,10 @@
   --avp-muted: #666666;
   --avp-line: #e7e7e7;
   --avp-soft: #f7f7f7;
-  --mockup-headline: var(--font-inter);
-  --mockup-body: var(--font-inter);
-  --mockup-accent: var(--font-barlow-condensed);
-  --mockup-serif: var(--font-lora);
+  --mockup-headline: "Inter";
+  --mockup-body: "Inter";
+  --mockup-accent: "Barlow Condensed";
+  --mockup-serif: "Lora";
   --mockup-gray: #64748b;
 }
 
