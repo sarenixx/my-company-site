@@ -16,7 +16,7 @@ After this change, the homepage at `/` will visually match the user’s preferre
 - [x] (2026-03-15 20:07Z) Rebuilt `web/app/page.tsx` to render the mockup layout from Sanity fields with safe fallbacks.
 - [x] (2026-03-15 20:08Z) Updated site-wide styles/navigation and added fluid page shell mode while preserving team/investments/news routes.
 - [x] (2026-03-15 20:08Z) Seeded `homepage-main` in Sanity with mockup copy and links via `scripts/seed-mockup-homepage.py`.
-- [ ] Run `npm run lint` and `npm run build` in `web/`, then commit and push all changes (completed: lint/build; remaining: commit + push).
+- [x] (2026-03-15 20:12Z) Ran `npm run lint` and `npm run build` in `web/`, validated `studio` schema, then committed and pushed all changes to `origin/main`.
 
 ## Surprises & Discoveries
 
@@ -48,7 +48,7 @@ After this change, the homepage at `/` will visually match the user’s preferre
 
 Implemented a mockup-faithful homepage redesign powered by Sanity section fields, including hero, ticker, about/stat block, team CTA section, platform/resources section, and footer links/social. The homepage now renders from a dedicated GROQ query with resilient fallbacks and a seeded `homepage-main` document so Studio users can edit content immediately.
 
-Validation passed with `npm run build` and lint returned warnings only (`<img>` optimization warnings pre-existing in this codebase pattern). Remaining work is only source-control completion (commit and push).
+Validation passed with `npm run build` and lint returned warnings only (`<img>` optimization warnings pre-existing in this codebase pattern). Studio schema validation also passed with 0 errors and 0 warnings. All code and plan changes are committed and pushed to `origin/main` under commit `58e2b73`.
 
 ## Context and Orientation
 
@@ -132,3 +132,4 @@ Use only existing stack dependencies:
 
 Revision note (2026-03-15): Initial plan creation for mockup-driven homepage recreation with Sanity section mapping.
 Revision note (2026-03-15): Updated after implementation with completed milestones, build validation, and final pending git push step.
+Revision note (2026-03-15): Updated after git commit/push to reflect fully completed state.
