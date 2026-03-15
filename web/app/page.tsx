@@ -1,3 +1,4 @@
+import { HeroLogoParallax } from "@/components/hero-logo-parallax";
 import Link from "next/link";
 
 import { SiteShell } from "@/components/site-shell";
@@ -213,6 +214,7 @@ export default async function Home() {
   return (
     <SiteShell active="about" fluid>
       <main className="mockup-homepage">
+        <HeroLogoParallax />
         <section className="mockup-hero">
           <div className="mockup-hero-background" aria-hidden="true">
             <div className="mockup-hero-gradient-orb" />
