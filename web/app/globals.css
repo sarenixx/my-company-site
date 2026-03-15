@@ -117,7 +117,7 @@ a {
 
 .page-hero h1 {
   margin: 0;
-  font-family: var(--mockup-accent);
+  font-family: var(--mockup-headline);
   font-size: clamp(1.8rem, 2.8vw, 2.5rem);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -144,7 +144,7 @@ a {
 
 .about-summary h1 {
   margin: 0;
-  font-family: var(--mockup-accent);
+  font-family: var(--mockup-headline);
   font-size: clamp(1.45rem, 2.6vw, 2rem);
   line-height: 1.32;
   letter-spacing: 0.01em;
@@ -191,7 +191,7 @@ a {
 
 .sector-section h2 {
   margin: 0 0 1rem;
-  font-family: var(--mockup-accent);
+  font-family: var(--mockup-headline);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 1.25rem;
@@ -212,7 +212,7 @@ a {
 .sector-card h3 {
   margin: 0 0 0.6rem;
   font-size: 1.05rem;
-  font-family: var(--mockup-accent);
+  font-family: var(--mockup-headline);
 }
 
 .sector-card p {
@@ -362,7 +362,7 @@ a {
 
 .investment-main h2 {
   margin: 0 0 0.75rem;
-  font-family: var(--mockup-accent);
+  font-family: var(--mockup-headline);
   font-size: 1.35rem;
 }
 
@@ -406,7 +406,7 @@ a {
 
 .team-modal-header h2 {
   margin: 0;
-  font-family: var(--mockup-accent);
+  font-family: var(--mockup-headline);
   font-size: 1.32rem;
   letter-spacing: 0.01em;
 }
