@@ -48,7 +48,7 @@ After this change, the homepage at `/` will visually match the user’s preferre
 
 Implemented a mockup-faithful homepage redesign powered by Sanity section fields, including hero, ticker, about/stat block, team CTA section, platform/resources section, and footer links/social. The homepage now renders from a dedicated GROQ query with resilient fallbacks and a seeded `homepage-main` document so Studio users can edit content immediately.
 
-Validation passed with `npm run build` and lint returned warnings only (`<img>` optimization warnings pre-existing in this codebase pattern). Studio schema validation also passed with 0 errors and 0 warnings. All code and plan changes are committed and pushed to `origin/main` under commit `58e2b73`.
+Validation passed with `npm run build` and lint returned warnings only (`<img>` optimization warnings pre-existing in this codebase pattern). Studio schema validation also passed with 0 errors and 0 warnings. All code and plan changes are committed and pushed to `origin/main`.
 
 ## Context and Orientation
 
