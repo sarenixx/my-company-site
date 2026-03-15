@@ -23,7 +23,11 @@ export function SiteShell({
       <header className="avp-header">
         <div className="avp-container avp-nav-row">
           <Link href="/" className="avp-brand" aria-label="Advance Venture Partners home">
-            AVP
+            <img
+              src="https://www.avp.vc/assets/images/branding/avp-logo.svg"
+              alt="Advance Venture Partners"
+              className="avp-brand-logo"
+            />
           </Link>
 
           <nav aria-label="Main navigation">

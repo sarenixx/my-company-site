@@ -67,6 +67,14 @@ a {
   font-size: 1.1rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
+  display: inline-flex;
+  align-items: center;
+}
+
+.avp-brand-logo {
+  height: 2rem;
+  width: auto;
+  display: block;
 }
 
 .avp-nav-links {
