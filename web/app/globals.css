@@ -117,7 +117,7 @@ a {
 
 .page-hero h1 {
   margin: 0;
-  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--mockup-accent);
   font-size: clamp(1.8rem, 2.8vw, 2.5rem);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -144,7 +144,7 @@ a {
 
 .about-summary h1 {
   margin: 0;
-  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--mockup-accent);
   font-size: clamp(1.45rem, 2.6vw, 2rem);
   line-height: 1.32;
   letter-spacing: 0.01em;
@@ -163,7 +163,7 @@ a {
   display: grid;
   place-items: center;
   border: 1px solid var(--avp-line);
-  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--mockup-accent);
   font-weight: 700;
   font-size: 1.7rem;
   letter-spacing: 0.08em;
@@ -191,7 +191,7 @@ a {
 
 .sector-section h2 {
   margin: 0 0 1rem;
-  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--mockup-accent);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 1.25rem;
@@ -212,7 +212,7 @@ a {
 .sector-card h3 {
   margin: 0 0 0.6rem;
   font-size: 1.05rem;
-  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--mockup-accent);
 }
 
 .sector-card p {
@@ -311,7 +311,7 @@ a {
   place-items: center;
   background: #efefef;
   color: #222;
-  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--mockup-accent);
   font-weight: 700;
 }
 
@@ -362,7 +362,7 @@ a {
 
 .investment-main h2 {
   margin: 0 0 0.75rem;
-  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--mockup-accent);
   font-size: 1.35rem;
 }
 
@@ -406,7 +406,7 @@ a {
 
 .team-modal-header h2 {
   margin: 0;
-  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--mockup-accent);
   font-size: 1.32rem;
   letter-spacing: 0.01em;
 }
@@ -460,7 +460,7 @@ a {
   background: #fafafa;
   padding: 0.5rem;
   text-align: center;
-  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--mockup-accent);
 }
 
 .status {
