@@ -127,7 +127,7 @@ def main() -> int:
     api = SanityApi(project_id=project_id, dataset=dataset, api_version=api_version, token=token)
 
     investments = api.query(
-        '*[_type == "investment"] | order(companyName asc){companyName, "logoUrl": coalesce(logo.asset->url, logoExternalUrl)}'
+        '*[_type == "investment"] | order(companyName asc){_id, companyName, "logoUrl": coalesce(logo.asset->url, logoExternalUrl)}'
     ) or []
     open_roles_count = api.query('count(*[_type == "jobPosting" && coalesce(isActive, true) == true])') or 0
 
@@ -137,6 +137,7 @@ def main() -> int:
         logo_url = (item.get("logoUrl") or "").strip()
         normalized_investments.append(
             {
+                "_id": item.get("_id"),
                 "companyName": company_name,
                 "logoUrl": logo_url,
                 "normalized": normalize_name(company_name),
@@ -144,6 +145,7 @@ def main() -> int:
         )
 
     ticker_items = []
+    ticker_company_refs = []
     for target in TICKER_TARGETS:
         label = target["display"]
         aliases = [normalize_name(alias) for alias in target["match"]]
@@ -151,6 +153,14 @@ def main() -> int:
         if not item:
             continue
         logo_url = item["logoUrl"]
+        if item.get("_id"):
+            ticker_company_refs.append(
+                {
+                    "_type": "reference",
+                    "_key": uuid.uuid4().hex[:12],
+                    "_ref": item["_id"],
+                }
+            )
         if not label and not logo_url:
             continue
         ticker_items.append(
@@ -200,6 +210,7 @@ def main() -> int:
         "heroHeadline": "We invest in human potential",
         "heroHeadlineEmphasis": "first",
         "heroSubheadline": "Because great companies begin with conviction.",
+        "portfolioTickerCompanies": ticker_company_refs,
         "portfolioTickerItems": ticker_items,
         "portfolioCtaText": "View Full Portfolio",
         "portfolioCtaLink": "/investments",
@@ -234,7 +245,16 @@ def main() -> int:
 
     tx = result.get("transactionId", "unknown")
     print(f"Upserted homepage-main with mockup section content. transactionId={tx}")
-    print(json.dumps({"tickerItems": len(ticker_items), "openRolesCount": open_roles_count}, indent=2))
+    print(
+        json.dumps(
+            {
+                "tickerItems": len(ticker_items),
+                "tickerCompanyRefs": len(ticker_company_refs),
+                "openRolesCount": open_roles_count,
+            },
+            indent=2,
+        )
+    )
     return 0
 
 

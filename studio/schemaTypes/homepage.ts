@@ -74,7 +74,9 @@ export const homepage = defineType({
     }),
     defineField({
       name: 'portfolioTickerItems',
-      title: 'Portfolio Ticker Items',
+      title: 'Portfolio Ticker Items (Manual)',
+      description:
+        'Legacy manual ticker list. Prefer "Portfolio Ticker Companies" above for easier logo management.',
       type: 'array',
       of: [
         defineArrayMember({
@@ -102,6 +104,20 @@ export const homepage = defineType({
               subtitle: 'logoUrl'
             }
           }
+        })
+      ]
+    }),
+    defineField({
+      name: 'portfolioTickerCompanies',
+      title: 'Portfolio Ticker Companies',
+      description:
+        'Recommended: select and reorder investment companies to drive ticker logos automatically.',
+      type: 'array',
+      validation: (rule) => rule.max(12),
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{ type: 'investment' }]
         })
       ]
     }),

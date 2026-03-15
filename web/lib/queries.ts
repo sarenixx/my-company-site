@@ -19,6 +19,11 @@ export const homepageQuery = groq`
         logoUrl,
         logoAlt
       },
+      portfolioTickerCompanies[]->{
+        _id,
+        companyName,
+        "logoUrl": coalesce(logo.asset->url, logoExternalUrl)
+      },
       portfolioCtaText,
       portfolioCtaLink,
       aboutSectionTitle,
@@ -111,6 +116,11 @@ export const homepageMockupQuery = groq`
         label,
         logoUrl,
         logoAlt
+      },
+      portfolioTickerCompanies[]->{
+        _id,
+        companyName,
+        "logoUrl": coalesce(logo.asset->url, logoExternalUrl)
       },
       portfolioCtaText,
       portfolioCtaLink,

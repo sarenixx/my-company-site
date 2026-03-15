@@ -30,6 +30,7 @@ type HomepageDocument = {
   heroSubheadline?: string;
   heroBackgroundLogoUrl?: string;
   portfolioTickerItems?: TickerItem[];
+  portfolioTickerCompanies?: InvestmentTickerFallback[];
   portfolioCtaText?: string;
   portfolioCtaLink?: string;
   aboutSectionTitle?: string;
@@ -121,6 +122,15 @@ function normalizeHref(value?: string, fallback = "#") {
 }
 
 function normalizeTickerItems(homepage: HomepageDocument | null, investments: InvestmentTickerFallback[]) {
+  const fromReferences = (homepage?.portfolioTickerCompanies || [])
+    .filter((item) => item.companyName || item.logoUrl)
+    .map((item) => ({
+      label: item.companyName || "Portfolio Company",
+      logoUrl: item.logoUrl,
+      logoAlt: item.companyName || "Portfolio company logo",
+    }));
+  if (fromReferences.length) return fromReferences;
+
   const fromHomepage = (homepage?.portfolioTickerItems || []).filter((item) => item.label || item.logoUrl);
   if (fromHomepage.length) return fromHomepage;
 
