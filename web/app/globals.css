@@ -208,22 +208,43 @@ a {
   gap: 0.7rem;
 }
 
-.team-card-link,
 .investment-logo-card {
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.team-card-link:hover,
 .investment-logo-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
+.team-card-grid-compact {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.team-card-button {
+  appearance: none;
+  width: 100%;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.team-card-button:hover {
+  transform: translateY(-2px);
+}
+
 .team-card-surface {
-  position: relative;
-  overflow: hidden;
   border: 1px solid var(--avp-line);
   background: #fff;
+  transition: box-shadow 0.2s ease;
+}
+
+.team-card-button:hover .team-card-surface {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.09);
 }
 
 .team-card-media img {
@@ -234,20 +255,18 @@ a {
 }
 
 .team-card-caption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 1.25rem 0.75rem 0.6rem;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(10, 10, 10, 0.82) 100%);
+  padding: 0.5rem 0.55rem;
+  border-top: 1px solid var(--avp-line);
+  background: #fff;
 }
 
 .team-card-caption p {
   margin: 0;
-  font-size: 0.88rem;
-  color: #fff;
+  font-size: 0.83rem;
+  color: #1e1e1e;
   font-weight: 500;
   letter-spacing: 0.01em;
+  line-height: 1.3;
 }
 
 .avatar-fallback {
@@ -265,51 +284,18 @@ a {
   border: 1px solid var(--avp-line);
 }
 
-.team-profiles,
 .investment-details {
   margin-top: 2rem;
   display: grid;
   gap: 1.15rem;
 }
 
-.team-profile,
 .investment-detail {
   border: 1px solid var(--avp-line);
   background: #fff;
   scroll-margin-top: 7rem;
 }
 
-.team-profile-header {
-  min-height: 64px;
-  padding: 0.9rem 1.15rem;
-  border-bottom: 1px solid var(--avp-line);
-  background: #fafafa;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.team-profile-header h2 {
-  margin: 0;
-  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
-  font-size: 1.3rem;
-  letter-spacing: 0.01em;
-}
-
-.team-profile-header h2 span {
-  color: var(--avp-muted);
-  font-weight: 400;
-}
-
-.team-profile-header a {
-  color: #0f4b9e;
-  font-size: 0.84rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.team-profile-body,
 .investment-detail {
   padding: 1.2rem;
   display: grid;
@@ -317,7 +303,6 @@ a {
   grid-template-columns: 240px 1fr;
 }
 
-.team-profile-side img,
 .investment-side img {
   width: 100%;
   height: auto;
@@ -346,8 +331,79 @@ a {
   font-size: 1.35rem;
 }
 
-.team-profile-main p,
 .investment-main p {
+  margin: 0 0 0.7rem;
+  line-height: 1.6;
+}
+
+.team-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(0, 0, 0, 0.58);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.team-modal {
+  width: min(980px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: #fff;
+  border: 1px solid var(--avp-line);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.3);
+}
+
+.team-modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0.95rem 1.15rem;
+  border-bottom: 1px solid var(--avp-line);
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.team-modal-header h2 {
+  margin: 0;
+  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.32rem;
+  letter-spacing: 0.01em;
+}
+
+.team-modal-header h2 span {
+  color: var(--avp-muted);
+  font-weight: 400;
+}
+
+.team-modal-close {
+  border: 1px solid var(--avp-line);
+  background: #fff;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.84rem;
+  cursor: pointer;
+}
+
+.team-modal-body {
+  padding: 1.2rem;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1.2rem;
+}
+
+.team-modal-side img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border: 1px solid var(--avp-line);
+  background: #fff;
+}
+
+.team-modal-main p {
   margin: 0 0 0.7rem;
   line-height: 1.6;
 }
@@ -434,6 +490,10 @@ a {
   .investment-logo-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+
+  .team-card-grid-compact {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 860px) {
@@ -466,13 +526,17 @@ a {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .team-profile-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.4rem;
+  .team-card-grid-compact {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .team-profile-body,
+  .team-modal-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
+  }
+
+  .team-modal-body,
   .investment-detail {
     grid-template-columns: 1fr;
   }
