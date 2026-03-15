@@ -24,6 +24,17 @@ DEFAULT_PROJECT_ID = "lv33ldxk"
 DEFAULT_DATASET = "production"
 DEFAULT_API_VERSION = "2025-03-06"
 
+TICKER_TARGETS: list[dict[str, Any]] = [
+    {"display": "Midi", "match": ["midi health", "midi"]},
+    {"display": "Conceivable", "match": ["conceivable"]},
+    {"display": "Boulder", "match": ["boulder care", "boulder"]},
+    {"display": "Ditto", "match": ["ditto"]},
+    {"display": "Openly", "match": ["openly"]},
+    {"display": "Morning Consult", "match": ["morning consult"]},
+    {"display": "GrayMatter Robotics", "match": ["graymatter robotics", "graymatter"]},
+    {"display": "Affinity", "match": ["affinity"]},
+]
+
 
 def strip_ansi(text: str) -> str:
     return re.sub(r"\x1b\[[0-9;]*m", "", text)
@@ -62,6 +73,10 @@ def keyed_object(payload: dict[str, Any]) -> dict[str, Any]:
         "_key": uuid.uuid4().hex[:12],
         **payload,
     }
+
+
+def normalize_name(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", (value or "").strip().lower()).strip()
 
 
 @dataclass
@@ -112,14 +127,30 @@ def main() -> int:
     api = SanityApi(project_id=project_id, dataset=dataset, api_version=api_version, token=token)
 
     investments = api.query(
-        '*[_type == "investment"] | order(companyName asc)[0...6]{companyName, "logoUrl": coalesce(logo.asset->url, logoExternalUrl)}'
+        '*[_type == "investment"] | order(companyName asc){companyName, "logoUrl": coalesce(logo.asset->url, logoExternalUrl)}'
     ) or []
     open_roles_count = api.query('count(*[_type == "jobPosting" && coalesce(isActive, true) == true])') or 0
 
-    ticker_items = []
+    normalized_investments = []
     for item in investments:
-        label = (item.get("companyName") or "").strip()
+        company_name = (item.get("companyName") or "").strip()
         logo_url = (item.get("logoUrl") or "").strip()
+        normalized_investments.append(
+            {
+                "companyName": company_name,
+                "logoUrl": logo_url,
+                "normalized": normalize_name(company_name),
+            }
+        )
+
+    ticker_items = []
+    for target in TICKER_TARGETS:
+        label = target["display"]
+        aliases = [normalize_name(alias) for alias in target["match"]]
+        item = next((entry for entry in normalized_investments if entry["normalized"] in aliases), None)
+        if not item:
+            continue
+        logo_url = item["logoUrl"]
         if not label and not logo_url:
             continue
         ticker_items.append(
@@ -127,13 +158,13 @@ def main() -> int:
                 {
                     "label": label or "Portfolio Company",
                     "logoUrl": logo_url or None,
-                    "logoAlt": f"{label} logo" if label else "Portfolio company logo",
+                    "logoAlt": f"{label} logo",
                 }
             )
         )
 
     if not ticker_items:
-        for label in ["Conceivable", "MIDI", "Company 3", "Company 4", "Company 5", "Company 6"]:
+        for label in [target["display"] for target in TICKER_TARGETS]:
             ticker_items.append(keyed_object({"label": label, "logoAlt": f"{label} logo"}))
 
     about_paragraphs = [

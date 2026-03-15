@@ -77,7 +77,16 @@ type HomepageResponse = {
   openRolesCount: number;
 };
 
-const FALLBACK_TICKER_LABELS = ["Conceivable", "MIDI", "Company 3", "Company 4", "Company 5", "Company 6"];
+const FALLBACK_TICKER_LABELS = [
+  "Midi",
+  "Conceivable",
+  "Boulder",
+  "Ditto",
+  "Openly",
+  "Morning Consult",
+  "GrayMatter Robotics",
+  "Affinity",
+];
 
 const FALLBACK_ABOUT_PARAGRAPHS = [
   "As an evergreen, family-funded firm, we're able to give founders the undivided attention their visions deserve. We're sector-agnostic because world-changing ideas come in all forms.",
@@ -117,7 +126,7 @@ function normalizeTickerItems(homepage: HomepageDocument | null, investments: In
 
   const fromInvestments = investments
     .filter((item) => item.companyName || item.logoUrl)
-    .slice(0, 6)
+    .slice(0, 8)
     .map((item) => ({
       label: item.companyName || "Portfolio Company",
       logoUrl: item.logoUrl,
