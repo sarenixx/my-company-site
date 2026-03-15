@@ -2,18 +2,20 @@ import Link from "next/link";
 
 type NavKey = "about" | "team" | "investments" | "news";
 
-const navItems: Array<{ key: NavKey; label: string; href: string }> = [
-  { key: "about", label: "About Us", href: "/" },
-  { key: "team", label: "Team", href: "/team" },
-  { key: "investments", label: "Investments", href: "/investments" },
-  { key: "news", label: "News", href: "/news" },
+const navItems: Array<{ label: string; href: string; activeFor?: NavKey }> = [
+  { label: "INVESTMENTS", href: "/investments", activeFor: "investments" },
+  { label: "TEAM", href: "/team", activeFor: "team" },
+  { label: "NEWS", href: "/news", activeFor: "news" },
+  { label: "THOUGHTS", href: "/#resources" },
 ];
 
 export function SiteShell({
   active,
+  fluid = false,
   children,
 }: {
   active: NavKey;
+  fluid?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -21,33 +23,28 @@ export function SiteShell({
       <header className="avp-header">
         <div className="avp-container avp-nav-row">
           <Link href="/" className="avp-brand" aria-label="Advance Venture Partners home">
-            Advance Venture Partners
+            AVP
           </Link>
 
           <nav aria-label="Main navigation">
             <ul className="avp-nav-links">
               {navItems.map((item) => (
-                <li key={item.key}>
+                <li key={`${item.href}-${item.label}`}>
                   <Link
                     href={item.href}
-                    className={item.key === active ? "is-active" : undefined}
-                    aria-current={item.key === active ? "page" : undefined}
+                    className={item.activeFor === active ? "is-active" : undefined}
+                    aria-current={item.activeFor === active ? "page" : undefined}
                   >
                     {item.label}
                   </Link>
                 </li>
               ))}
-              <li>
-                <a href="https://jobs.avp.vc/jobs" target="_blank" rel="noreferrer">
-                  Jobs
-                </a>
-              </li>
             </ul>
           </nav>
         </div>
       </header>
 
-      <div className="avp-container avp-page">{children}</div>
+      <div className={fluid ? "avp-page avp-page-fluid" : "avp-container avp-page"}>{children}</div>
     </div>
   );
 }

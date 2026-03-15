@@ -10,6 +10,46 @@ export const homepageQuery = groq`
       aboutHeadline,
       aboutParagraph,
       aboutPoints,
+      heroHeadline,
+      heroHeadlineEmphasis,
+      heroSubheadline,
+      heroBackgroundLogoUrl,
+      portfolioTickerItems[]{
+        label,
+        logoUrl,
+        logoAlt
+      },
+      portfolioCtaText,
+      portfolioCtaLink,
+      aboutSectionTitle,
+      aboutParagraphs,
+      aboutStats[]{
+        value,
+        label
+      },
+      teamSectionTitle,
+      teamSectionSubtitle,
+      teamSectionDescription,
+      teamPrimaryCtaText,
+      teamPrimaryCtaLink,
+      teamSecondaryCtaText,
+      teamSecondaryCtaLink,
+      platformSectionTitle,
+      platformSectionSubtitle,
+      resourcesSectionTitle,
+      resourcesSectionSubtitle,
+      resourcesCtaText,
+      resourcesCtaLink,
+      footerBrand,
+      footerEmail,
+      footerSocialLinks[]{
+        label,
+        url
+      },
+      footerLinks[]{
+        label,
+        url
+      },
       "heroImageUrl": coalesce(heroImage.asset->url, heroImageUrl)
     },
     "investments": *[_type == "investment"] | order(_createdAt desc)[0...6]{
@@ -50,6 +90,75 @@ export const homepageQuery = groq`
       applyUrl,
       description
     }
+  }
+`;
+
+export const homepageMockupQuery = groq`
+  {
+    "homepage": *[_type == "homepage" && _id == "homepage-main"][0]{
+      title,
+      subtitle,
+      buttonText,
+      buttonLink,
+      aboutHeadline,
+      aboutParagraph,
+      aboutPoints,
+      heroHeadline,
+      heroHeadlineEmphasis,
+      heroSubheadline,
+      heroBackgroundLogoUrl,
+      portfolioTickerItems[]{
+        label,
+        logoUrl,
+        logoAlt
+      },
+      portfolioCtaText,
+      portfolioCtaLink,
+      aboutSectionTitle,
+      aboutParagraphs,
+      aboutStats[]{
+        value,
+        label
+      },
+      teamSectionTitle,
+      teamSectionSubtitle,
+      teamSectionDescription,
+      teamPrimaryCtaText,
+      teamPrimaryCtaLink,
+      teamSecondaryCtaText,
+      teamSecondaryCtaLink,
+      platformSectionTitle,
+      platformSectionSubtitle,
+      resourcesSectionTitle,
+      resourcesSectionSubtitle,
+      resourcesCtaText,
+      resourcesCtaLink,
+      footerBrand,
+      footerEmail,
+      footerSocialLinks[]{
+        label,
+        url
+      },
+      footerLinks[]{
+        label,
+        url
+      },
+      "heroImageUrl": coalesce(heroImage.asset->url, heroImageUrl)
+    },
+    "investments": *[_type == "investment"] | order(companyName asc)[0...12]{
+      _id,
+      companyName,
+      website,
+      "logoUrl": coalesce(logo.asset->url, logoExternalUrl)
+    },
+    "latestNews": *[_type == "newsArticle"] | order(coalesce(publishedAt, _createdAt) desc)[0...4]{
+      _id,
+      title,
+      sourcePublication,
+      externalUrl
+    },
+    "teamCount": count(*[_type == "teamMember"]),
+    "openRolesCount": count(*[_type == "jobPosting" && coalesce(isActive, true) == true])
   }
 `;
 
