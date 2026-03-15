@@ -201,18 +201,11 @@ a {
   font-size: 0.94rem;
 }
 
-.team-grid,
+.team-card-grid,
 .investment-logo-grid {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0.7rem;
-}
-
-.team-card,
-.investment-logo-card {
-  border: 1px solid var(--avp-line);
-  background: #fff;
-  min-height: 120px;
 }
 
 .team-card-link,
@@ -226,17 +219,35 @@ a {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-.team-card img {
+.team-card-surface {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--avp-line);
+  background: #fff;
+}
+
+.team-card-media img {
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-bottom: 1px solid var(--avp-line);
+  display: block;
 }
 
-.team-card p {
+.team-card-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.25rem 0.75rem 0.6rem;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(10, 10, 10, 0.82) 100%);
+}
+
+.team-card-caption p {
   margin: 0;
-  padding: 0.7rem 0.75rem;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
 .avatar-fallback {
@@ -254,24 +265,59 @@ a {
   border: 1px solid var(--avp-line);
 }
 
-.team-details,
+.team-profiles,
 .investment-details {
   margin-top: 2rem;
   display: grid;
   gap: 1.15rem;
 }
 
-.team-detail,
+.team-profile,
 .investment-detail {
   border: 1px solid var(--avp-line);
+  background: #fff;
+  scroll-margin-top: 7rem;
+}
+
+.team-profile-header {
+  min-height: 64px;
+  padding: 0.9rem 1.15rem;
+  border-bottom: 1px solid var(--avp-line);
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.team-profile-header h2 {
+  margin: 0;
+  font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.01em;
+}
+
+.team-profile-header h2 span {
+  color: var(--avp-muted);
+  font-weight: 400;
+}
+
+.team-profile-header a {
+  color: #0f4b9e;
+  font-size: 0.84rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.team-profile-body,
+.investment-detail {
   padding: 1.2rem;
   display: grid;
   gap: 1.2rem;
   grid-template-columns: 240px 1fr;
-  scroll-margin-top: 7rem;
 }
 
-.team-detail-side img,
+.team-profile-side img,
 .investment-side img {
   width: 100%;
   height: auto;
@@ -294,21 +340,13 @@ a {
   text-underline-offset: 2px;
 }
 
-.team-detail-main h2,
 .investment-main h2 {
   margin: 0 0 0.75rem;
   font-family: "Roboto Condensed", "Helvetica Neue", Arial, sans-serif;
   font-size: 1.35rem;
 }
 
-.team-detail-main h2 span {
-  margin-left: 0.5rem;
-  color: var(--avp-muted);
-  font-size: 1rem;
-  font-weight: 400;
-}
-
-.team-detail-main p,
+.team-profile-main p,
 .investment-main p {
   margin: 0 0 0.7rem;
   line-height: 1.6;
@@ -392,7 +430,7 @@ a {
 }
 
 @media (max-width: 1080px) {
-  .team-grid,
+  .team-card-grid,
   .investment-logo-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -423,12 +461,18 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .team-grid,
+  .team-card-grid,
   .investment-logo-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .team-detail,
+  .team-profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .team-profile-body,
   .investment-detail {
     grid-template-columns: 1fr;
   }

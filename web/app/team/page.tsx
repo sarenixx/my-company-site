@@ -22,55 +22,65 @@ export default async function TeamPage() {
 
   return (
     <SiteShell active="team">
-      <main className="team-page">
+      <main className="team-page" id="team-top">
         <section className="page-hero">
           <h1>Team</h1>
         </section>
 
-        <section className="team-grid">
+        <section className="team-card-grid">
           {team.map((member) => (
             <a key={member._id} href={`#${member._id}`} className="team-card-link">
-              <article className="team-card">
-                {member.photoUrl ? (
-                  <img src={member.photoUrl} alt={member.name || "Team member"} />
-                ) : (
-                  <div className="avatar-fallback">{(member.name || "AVP").slice(0, 2).toUpperCase()}</div>
-                )}
-                <p>{member.name || "Unnamed"}</p>
+              <article className="team-card team-card-surface">
+                <div className="team-card-media">
+                  {member.photoUrl ? (
+                    <img src={member.photoUrl} alt={member.name || "Team member"} />
+                  ) : (
+                    <div className="avatar-fallback">{(member.name || "AVP").slice(0, 2).toUpperCase()}</div>
+                  )}
+                </div>
+                <div className="team-card-caption">
+                  <p>{member.name || "Unnamed"}</p>
+                </div>
               </article>
             </a>
           ))}
         </section>
 
-        <section className="team-details">
+        <section className="team-profiles">
           {team.map((member) => {
             const bioParagraphs = portableTextToParagraphs(member.bio);
             return (
-              <article id={member._id} key={member._id} className="team-detail">
-                <div className="team-detail-side">
-                  {member.photoUrl ? (
-                    <img src={member.photoUrl} alt={member.name || "Team member"} />
-                  ) : (
-                    <div className="avatar-fallback large">{(member.name || "AVP").slice(0, 2).toUpperCase()}</div>
-                  )}
-                  <div className="team-contact-links">
-                    {member.linkedin ? (
-                      <a href={member.linkedin} target="_blank" rel="noreferrer">
-                        LinkedIn
-                      </a>
-                    ) : null}
-                    {member.email ? <a href={`mailto:${member.email}`}>Email</a> : null}
-                  </div>
-                </div>
-
-                <div className="team-detail-main">
+              <article id={member._id} key={member._id} className="team-profile">
+                <header className="team-profile-header">
                   <h2>
                     {member.name || "Unnamed"}
-                    {member.role ? <span>{member.role}</span> : null}
+                    {member.role ? <span> - {member.role}</span> : null}
                   </h2>
-                  {bioParagraphs.map((paragraph, index) => (
-                    <p key={`${member._id}-bio-${index}`}>{paragraph}</p>
-                  ))}
+                  <a href="#team-top">Back to top</a>
+                </header>
+
+                <div className="team-profile-body">
+                  <aside className="team-profile-side">
+                    {member.photoUrl ? (
+                      <img src={member.photoUrl} alt={member.name || "Team member"} />
+                    ) : (
+                      <div className="avatar-fallback large">{(member.name || "AVP").slice(0, 2).toUpperCase()}</div>
+                    )}
+                    <div className="team-contact-links">
+                      {member.linkedin ? (
+                        <a href={member.linkedin} target="_blank" rel="noreferrer">
+                          LinkedIn
+                        </a>
+                      ) : null}
+                      {member.email ? <a href={`mailto:${member.email}`}>Email</a> : null}
+                    </div>
+                  </aside>
+
+                  <div className="team-profile-main">
+                    {bioParagraphs.map((paragraph, index) => (
+                      <p key={`${member._id}-bio-${index}`}>{paragraph}</p>
+                    ))}
+                  </div>
                 </div>
               </article>
             );
