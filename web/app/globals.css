@@ -636,7 +636,7 @@ a {
 
 .mockup-hero-background-logo {
   --hero-logo-shift-y: 0px;
-  --hero-logo-scale: 2;
+  --hero-logo-scale: 1.6;
   position: absolute;
   top: 50%;
   left: 50%;

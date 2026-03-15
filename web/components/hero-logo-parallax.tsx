@@ -7,11 +7,14 @@ export function HeroLogoParallax() {
     const heroBackgroundLogo = document.querySelector<HTMLElement>(".mockup-hero-background-logo");
     if (!heroBackgroundLogo) return;
 
+    const START_SCALE = 1.6;
+    const MIN_SCALE = 1;
+    const SCALE_DECAY = 0.0012;
     let ticking = false;
 
     const applyParallax = () => {
       const scrollY = window.scrollY;
-      const scale = Math.max(1, 2 - scrollY * 0.002);
+      const scale = Math.max(MIN_SCALE, START_SCALE - scrollY * SCALE_DECAY);
       const shiftY = scrollY * 0.4;
 
       heroBackgroundLogo.style.setProperty("--hero-logo-shift-y", `${shiftY.toFixed(2)}px`);
@@ -37,4 +40,3 @@ export function HeroLogoParallax() {
 
   return null;
 }
-
