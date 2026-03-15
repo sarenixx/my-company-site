@@ -805,6 +805,7 @@ a {
   font-size: clamp(2rem, 3.6vw, 3rem);
   font-weight: 700;
   color: var(--mockup-gray);
+  font-variant-numeric: tabular-nums;
 }
 
 .mockup-stat p {

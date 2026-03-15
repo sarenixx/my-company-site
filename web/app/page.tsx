@@ -1,4 +1,5 @@
 import { HeroLogoParallax } from "@/components/hero-logo-parallax";
+import { StatCountUp } from "@/components/stat-count-up";
 import Link from "next/link";
 
 import { SiteShell } from "@/components/site-shell";
@@ -295,7 +296,9 @@ export default async function Home() {
               <div className="mockup-about-stats">
                 {aboutStats.map((stat, index) => (
                   <div className="mockup-stat" key={`${stat.value || "stat"}-${index}`}>
-                    <h3>{stat.value || "-"}</h3>
+                    <h3>
+                      <StatCountUp value={stat.value || "-"} delayMs={index * 130} />
+                    </h3>
                     <p>{stat.label || "Metric"}</p>
                   </div>
                 ))}
