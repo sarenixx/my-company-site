@@ -15,6 +15,8 @@ export type TeamMember = {
   bio?: PortableTextBlock[];
 };
 
+const LINKEDIN_LOGO_URL = "/linkedin%20logo.png";
+
 export function TeamDirectory({ team }: { team: TeamMember[] }) {
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -100,7 +102,7 @@ export function TeamDirectory({ team }: { team: TeamMember[] }) {
                     <div className="team-contact-links">
                       {activeMember.linkedin ? (
                         <a href={activeMember.linkedin} target="_blank" rel="noreferrer">
-                          LinkedIn
+                          <img src={LINKEDIN_LOGO_URL} alt="LinkedIn" className="team-contact-linkedin-logo" />
                         </a>
                       ) : null}
                       {activeMember.email ? <a href={`mailto:${activeMember.email}`}>Email</a> : null}

@@ -101,16 +101,13 @@ const FALLBACK_ABOUT_STATS = [
   { value: "10+", label: "Team Members" },
 ];
 
-const FALLBACK_FOOTER_SOCIAL = [
-  { label: "LinkedIn", url: "https://www.linkedin.com/company/advance-venture-partners" },
-  { label: "X", url: "https://x.com" },
-];
-
-const FALLBACK_FOOTER_LINKS = [
-  { label: "Contact Us", url: "/#resources" },
-  { label: "Privacy Policy", url: "#privacy" },
-  { label: "Terms of Service", url: "#terms" },
-];
+const MIDI_TICKER_LOGO_URL = "/midi logo copy.png";
+const DITTO_TICKER_LOGO_URL = "/ditto logo copy.png";
+const FOOTER_AVP_LOGO_URL = "/avp%20whiteish%20logo%20copy.png?v=2";
+const FOOTER_LINKEDIN_LOGO_URL = "/linkedin%20logo.png";
+const FOOTER_BLUESKY_LOGO_URL = "/blue%20sky%20logo.png";
+const FOOTER_LINKEDIN_URL = "https://www.linkedin.com/company/advanceventurepartners/";
+const FOOTER_BLUESKY_URL = "https://bsky.app/profile/avp-vc.bsky.social";
 
 function isExternalUrl(value: string) {
   return value.startsWith("http://") || value.startsWith("https://") || value.startsWith("mailto:");
@@ -122,20 +119,41 @@ function normalizeHref(value?: string, fallback = "#") {
   return trimmed || fallback;
 }
 
+function applyTickerLogoOverrides(items: TickerItem[]) {
+  return items.map((item) => {
+    const searchableText = `${item.label || ""} ${item.logoAlt || ""}`.toLowerCase();
+    if (searchableText.includes("midi")) {
+      return {
+        ...item,
+        logoUrl: MIDI_TICKER_LOGO_URL,
+        logoAlt: item.logoAlt || item.label || "Midi logo",
+      };
+    }
+    if (searchableText.includes("ditto")) {
+      return {
+        ...item,
+        logoUrl: DITTO_TICKER_LOGO_URL,
+        logoAlt: item.logoAlt || item.label || "Ditto logo",
+      };
+    }
+    return item;
+  });
+}
+
 function normalizeTickerItems(homepage: HomepageDocument | null, investments: InvestmentTickerFallback[]) {
-  const fromReferences = (homepage?.portfolioTickerCompanies || [])
+  const fromReferences: TickerItem[] = (homepage?.portfolioTickerCompanies || [])
     .filter((item) => item.companyName || item.logoUrl)
     .map((item) => ({
       label: item.companyName || "Portfolio Company",
       logoUrl: item.logoUrl,
       logoAlt: item.companyName || "Portfolio company logo",
     }));
-  if (fromReferences.length) return fromReferences;
+  if (fromReferences.length) return applyTickerLogoOverrides(fromReferences);
 
   const fromHomepage = (homepage?.portfolioTickerItems || []).filter((item) => item.label || item.logoUrl);
-  if (fromHomepage.length) return fromHomepage;
+  if (fromHomepage.length) return applyTickerLogoOverrides(fromHomepage);
 
-  const fromInvestments = investments
+  const fromInvestments: TickerItem[] = investments
     .filter((item) => item.companyName || item.logoUrl)
     .slice(0, 8)
     .map((item) => ({
@@ -144,10 +162,12 @@ function normalizeTickerItems(homepage: HomepageDocument | null, investments: In
       logoAlt: item.companyName || "Portfolio company logo",
     }));
 
-  if (fromInvestments.length) return fromInvestments;
+  if (fromInvestments.length) return applyTickerLogoOverrides(fromInvestments);
 
-  return FALLBACK_TICKER_LABELS.map(
-    (label): TickerItem => ({ label, logoUrl: undefined, logoAlt: `${label} logo` }),
+  return applyTickerLogoOverrides(
+    FALLBACK_TICKER_LABELS.map(
+      (label): TickerItem => ({ label, logoUrl: undefined, logoAlt: `${label} logo` }),
+    ),
   );
 }
 
@@ -226,10 +246,6 @@ export default async function Home() {
 
   const resourcesCtaLink =
     homepage?.resourcesCtaLink || data.latestNews[0]?.externalUrl || "/news";
-
-  const footerSocialLinks =
-    (homepage?.footerSocialLinks || []).filter((item) => item.label && item.url) || [];
-  const footerLinks = (homepage?.footerLinks || []).filter((item) => item.label && item.url) || [];
 
   return (
     <SiteShell active="about" fluid>
@@ -362,32 +378,57 @@ export default async function Home() {
         <footer className="mockup-footer">
           <div className="mockup-container">
             <div className="mockup-footer-content">
-              <div className="mockup-footer-left">
-                <h3>{homepage?.footerBrand || "AVP"}</h3>
-                <p>
-                  <a href={`mailto:${homepage?.footerEmail || "hello@avp.vc"}`}>
-                    {homepage?.footerEmail || "hello@avp.vc"}
-                  </a>
-                </p>
-                <div className="mockup-footer-social">
-                  {(footerSocialLinks.length ? footerSocialLinks : FALLBACK_FOOTER_SOCIAL).map((item, index) => (
-                    <a href={item.url} target="_blank" rel="noreferrer" key={`${item.label || "social"}-${index}`}>
-                      {item.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mockup-footer-right">
-                {(footerLinks.length ? footerLinks : FALLBACK_FOOTER_LINKS).map((item, index) => (
-                  <ActionLink
-                    key={`${item.label || "footer-link"}-${index}`}
-                    href={normalizeHref(item.url, "#")}
-                    label={item.label || "Link"}
-                    className="mockup-footer-link"
+              <img
+                src={FOOTER_AVP_LOGO_URL}
+                alt="Advance Venture Partners"
+                className="mockup-footer-avp-logo"
+              />
+              <div className="mockup-footer-social-row">
+                <a
+                  href={FOOTER_LINKEDIN_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Advance Venture Partners on LinkedIn"
+                  className="mockup-footer-social-link"
+                >
+                  <img
+                    src={FOOTER_LINKEDIN_LOGO_URL}
+                    alt="LinkedIn"
+                    className="mockup-footer-social-logo"
                   />
-                ))}
+                </a>
+                <span className="mockup-footer-social-divider" aria-hidden="true">
+                  |
+                </span>
+                <a
+                  href={FOOTER_BLUESKY_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Advance Venture Partners on BlueSky"
+                  className="mockup-footer-social-link"
+                >
+                  <img
+                    src={FOOTER_BLUESKY_LOGO_URL}
+                    alt="BlueSky"
+                    className="mockup-footer-social-logo"
+                  />
+                </a>
               </div>
+              <p className="mockup-footer-location">
+                <span>San Francisco</span>
+                <span aria-hidden="true">|</span>
+                <span>New York</span>
+              </p>
+              <p className="mockup-footer-legal-links">
+                <a href="#terms" className="mockup-footer-link">
+                  Terms of Use
+                </a>
+                <span aria-hidden="true">|</span>
+                <a href="#privacy" className="mockup-footer-link">
+                  Privacy Policy
+                </a>
+              </p>
+              <p className="mockup-footer-copyright">©2026 Advance Venture Partners. All Rights Reserved.</p>
             </div>
           </div>
         </footer>

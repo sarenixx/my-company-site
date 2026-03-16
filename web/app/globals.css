@@ -370,6 +370,12 @@ a {
   text-underline-offset: 2px;
 }
 
+.team-contact-linkedin-logo {
+  display: block;
+  height: 20px;
+  width: auto;
+}
+
 .investment-main h2 {
   margin: 0 0 0.75rem;
   font-family: var(--mockup-headline);
@@ -734,6 +740,11 @@ a {
   display: block;
 }
 
+.mockup-ticker-item img[alt*="midi" i] {
+  transform: scale(1.15);
+  transform-origin: center;
+}
+
 .mockup-secondary-button {
   display: inline-block;
   border: 0;
@@ -846,54 +857,106 @@ a {
   margin-top: 1.4rem;
   background: linear-gradient(135deg, #64748b 0%, #475569 100%);
   color: #fff;
-  padding: 3.3rem 0;
+  padding: 2.2rem 0 3rem;
 }
 
 .mockup-footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 2.4rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas:
+    "brand location ."
+    "social . legal"
+    ". . copyright";
+  align-items: start;
+  column-gap: 1.1rem;
+  row-gap: 0.45rem;
 }
 
-.mockup-footer-left h3 {
-  margin: 0 0 1rem;
-  font-family: var(--mockup-headline);
-  font-size: 1.5rem;
-  font-weight: 500;
-}
-
-.mockup-footer-left p {
-  margin: 0 0 1rem;
-}
-
-.mockup-footer-left p a,
-.mockup-footer-social a {
+.mockup-footer-location,
+.mockup-footer-copyright {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
   color: #fff;
-  opacity: 0.85;
+}
+
+.mockup-footer-avp-logo {
+  grid-area: brand;
+  justify-self: start;
+  display: block;
+  width: min(54px, 16vw);
+  height: auto;
+}
+
+.mockup-footer-social-row {
+  grid-area: social;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1.2rem;
+}
+
+.mockup-footer-social-link {
+  display: inline-flex;
+  width: fit-content;
+  opacity: 0.9;
   transition: opacity 0.2s ease;
 }
 
-.mockup-footer-left p a:hover,
-.mockup-footer-social a:hover {
+.mockup-footer-social-link:hover {
   opacity: 1;
 }
 
-.mockup-footer-social {
-  display: flex;
-  gap: 1.25rem;
+.mockup-footer-social-logo {
+  display: block;
+  height: 24px;
+  width: auto;
 }
 
-.mockup-footer-right {
-  display: flex;
-  gap: 1.4rem;
-  flex-wrap: wrap;
+.mockup-footer-social-divider {
+  opacity: 0.72;
+  line-height: 1;
+}
+
+.mockup-footer-copyright {
+  grid-area: copyright;
+  justify-self: end;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  opacity: 0.86;
+  white-space: nowrap;
+}
+
+.mockup-footer-location {
+  grid-area: location;
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  white-space: nowrap;
+  font-family: var(--mockup-accent);
+  font-size: 0.9rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.94;
+}
+
+.mockup-footer-legal-links {
+  grid-area: legal;
+  justify-self: end;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  white-space: nowrap;
+  opacity: 0.86;
 }
 
 .mockup-footer-link {
   color: #fff;
-  opacity: 0.72;
-  font-size: 0.9rem;
+  opacity: 0.82;
+  text-decoration: none;
   transition: opacity 0.2s ease;
 }
 
@@ -951,7 +1014,34 @@ a {
   }
 
   .mockup-footer-content {
-    flex-direction: column;
-    gap: 1.2rem;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "location"
+      "brand"
+      "social"
+      "legal"
+      "copyright";
+    justify-items: center;
+    gap: 0.8rem;
+    text-align: center;
+  }
+
+  .mockup-footer-location,
+  .mockup-footer-legal-links,
+  .mockup-footer-copyright {
+    justify-self: center;
+  }
+
+  .mockup-footer-avp-logo,
+  .mockup-footer-social-row {
+    justify-self: center;
+  }
+
+  .mockup-footer-social-row {
+    margin-top: 0.45rem;
+  }
+
+  .mockup-footer-copyright {
+    white-space: normal;
   }
 }
