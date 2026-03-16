@@ -44,5 +44,23 @@ export const investment = defineType({
         ],
       },
     }),
+    defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Enterprise', value: 'enterprise'},
+          {title: 'Commerce', value: 'commerce'},
+          {title: 'Healthcare', value: 'healthcare'},
+        ],
+      },
+    }),
+    defineField({
+      name: 'isFeatured',
+      title: 'Featured',
+      type: 'boolean',
+      initialValue: false,
+    }),
   ],
 })

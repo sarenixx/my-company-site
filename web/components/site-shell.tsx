@@ -12,14 +12,16 @@ const navItems: Array<{ label: string; href: string; activeFor?: NavKey }> = [
 export function SiteShell({
   active,
   fluid = false,
+  whiteBackground = false,
   children,
 }: {
   active: NavKey;
   fluid?: boolean;
+  whiteBackground?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <div className="avp-root">
+    <div className={whiteBackground ? "avp-root avp-root-white" : "avp-root"}>
       <header className="avp-header">
         <div className="avp-container avp-nav-row">
           <Link href="/" className="avp-brand" aria-label="Advance Venture Partners home">

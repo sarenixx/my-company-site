@@ -1,6 +1,7 @@
 import { HeroLogoParallax } from "@/components/hero-logo-parallax";
 import { StatCountUp } from "@/components/stat-count-up";
 import Link from "next/link";
+import { Fragment } from "react";
 
 import { SiteShell } from "@/components/site-shell";
 import { homepageMockupQuery } from "@/lib/queries";
@@ -20,6 +21,13 @@ type StatItem = {
 type LinkItem = {
   label?: string;
   url?: string;
+};
+
+type FooterSocialLink = {
+  label?: string;
+  url?: string;
+  logoUrl?: string;
+  logoAlt?: string;
 };
 
 type HomepageDocument = {
@@ -52,8 +60,12 @@ type HomepageDocument = {
   resourcesCtaText?: string;
   resourcesCtaLink?: string;
   footerBrand?: string;
+  footerBrandLogoUrl?: string;
+  footerBrandLogoAlt?: string;
   footerEmail?: string;
-  footerSocialLinks?: LinkItem[];
+  footerLocations?: string[];
+  footerCopyright?: string;
+  footerSocialLinks?: FooterSocialLink[];
   footerLinks?: LinkItem[];
 };
 
@@ -101,13 +113,28 @@ const FALLBACK_ABOUT_STATS = [
   { value: "10+", label: "Team Members" },
 ];
 
-const MIDI_TICKER_LOGO_URL = "/midi logo copy.png";
-const DITTO_TICKER_LOGO_URL = "/ditto logo copy.png";
-const FOOTER_AVP_LOGO_URL = "/avp%20whiteish%20logo%20copy.png?v=2";
-const FOOTER_LINKEDIN_LOGO_URL = "/linkedin%20logo.png";
-const FOOTER_BLUESKY_LOGO_URL = "/blue%20sky%20logo.png";
-const FOOTER_LINKEDIN_URL = "https://www.linkedin.com/company/advanceventurepartners/";
-const FOOTER_BLUESKY_URL = "https://bsky.app/profile/avp-vc.bsky.social";
+const FALLBACK_FOOTER_BRAND_LOGO_URL = "/avp%20whiteish%20logo%20copy.png?v=2";
+const FALLBACK_FOOTER_BRAND_LOGO_ALT = "Advance Venture Partners";
+const FALLBACK_FOOTER_SOCIAL_LINKS: FooterSocialLink[] = [
+  {
+    label: "LinkedIn",
+    url: "https://www.linkedin.com/company/advanceventurepartners/",
+    logoUrl: "/linkedin%20logo.png",
+    logoAlt: "LinkedIn",
+  },
+  {
+    label: "BlueSky",
+    url: "https://bsky.app/profile/avp-vc.bsky.social",
+    logoUrl: "/blue%20sky%20logo.png",
+    logoAlt: "BlueSky",
+  },
+];
+const FALLBACK_FOOTER_LOCATIONS = ["San Francisco", "New York"];
+const FALLBACK_FOOTER_LEGAL_LINKS: LinkItem[] = [
+  { label: "Terms of Use", url: "#terms" },
+  { label: "Privacy Policy", url: "#privacy" },
+];
+const FALLBACK_FOOTER_COPYRIGHT = "©2026 Advance Venture Partners. All Rights Reserved.";
 
 function isExternalUrl(value: string) {
   return value.startsWith("http://") || value.startsWith("https://") || value.startsWith("mailto:");
@@ -119,28 +146,10 @@ function normalizeHref(value?: string, fallback = "#") {
   return trimmed || fallback;
 }
 
-function applyTickerLogoOverrides(items: TickerItem[]) {
-  return items.map((item) => {
-    const searchableText = `${item.label || ""} ${item.logoAlt || ""}`.toLowerCase();
-    if (searchableText.includes("midi")) {
-      return {
-        ...item,
-        logoUrl: MIDI_TICKER_LOGO_URL,
-        logoAlt: item.logoAlt || item.label || "Midi logo",
-      };
-    }
-    if (searchableText.includes("ditto")) {
-      return {
-        ...item,
-        logoUrl: DITTO_TICKER_LOGO_URL,
-        logoAlt: item.logoAlt || item.label || "Ditto logo",
-      };
-    }
-    return item;
-  });
-}
-
 function normalizeTickerItems(homepage: HomepageDocument | null, investments: InvestmentTickerFallback[]) {
+  const fromHomepage = (homepage?.portfolioTickerItems || []).filter((item) => item.label || item.logoUrl);
+  if (fromHomepage.length) return fromHomepage;
+
   const fromReferences: TickerItem[] = (homepage?.portfolioTickerCompanies || [])
     .filter((item) => item.companyName || item.logoUrl)
     .map((item) => ({
@@ -148,10 +157,7 @@ function normalizeTickerItems(homepage: HomepageDocument | null, investments: In
       logoUrl: item.logoUrl,
       logoAlt: item.companyName || "Portfolio company logo",
     }));
-  if (fromReferences.length) return applyTickerLogoOverrides(fromReferences);
-
-  const fromHomepage = (homepage?.portfolioTickerItems || []).filter((item) => item.label || item.logoUrl);
-  if (fromHomepage.length) return applyTickerLogoOverrides(fromHomepage);
+  if (fromReferences.length) return fromReferences;
 
   const fromInvestments: TickerItem[] = investments
     .filter((item) => item.companyName || item.logoUrl)
@@ -162,12 +168,10 @@ function normalizeTickerItems(homepage: HomepageDocument | null, investments: In
       logoAlt: item.companyName || "Portfolio company logo",
     }));
 
-  if (fromInvestments.length) return applyTickerLogoOverrides(fromInvestments);
+  if (fromInvestments.length) return fromInvestments;
 
-  return applyTickerLogoOverrides(
-    FALLBACK_TICKER_LABELS.map(
-      (label): TickerItem => ({ label, logoUrl: undefined, logoAlt: `${label} logo` }),
-    ),
+  return FALLBACK_TICKER_LABELS.map(
+    (label): TickerItem => ({ label, logoUrl: undefined, logoAlt: `${label} logo` }),
   );
 }
 
@@ -188,6 +192,33 @@ function normalizeStats(homepage: HomepageDocument | null, teamCount: number) {
     }
     return stat;
   });
+}
+
+function normalizeFooterSocialLinks(homepage: HomepageDocument | null) {
+  const fromHomepage = (homepage?.footerSocialLinks || []).filter(
+    (item) => item.label || item.url || item.logoUrl,
+  );
+
+  if (fromHomepage.length) {
+    return fromHomepage.map((item) => ({
+      label: item.label?.trim() || "Social",
+      url: item.url,
+      logoUrl: item.logoUrl,
+      logoAlt: item.logoAlt || item.label || "Social logo",
+    }));
+  }
+
+  return FALLBACK_FOOTER_SOCIAL_LINKS;
+}
+
+function normalizeFooterLocations(homepage: HomepageDocument | null) {
+  const fromHomepage = (homepage?.footerLocations || []).map((value) => value.trim()).filter(Boolean);
+  return fromHomepage.length ? fromHomepage : FALLBACK_FOOTER_LOCATIONS;
+}
+
+function normalizeFooterLinks(homepage: HomepageDocument | null) {
+  const fromHomepage = (homepage?.footerLinks || []).filter((item) => item.label || item.url);
+  return fromHomepage.length ? fromHomepage : FALLBACK_FOOTER_LEGAL_LINKS;
 }
 
 function ActionLink({
@@ -246,6 +277,13 @@ export default async function Home() {
 
   const resourcesCtaLink =
     homepage?.resourcesCtaLink || data.latestNews[0]?.externalUrl || "/news";
+  const footerBrandLogoUrl = homepage?.footerBrandLogoUrl || FALLBACK_FOOTER_BRAND_LOGO_URL;
+  const footerBrandLogoAlt =
+    homepage?.footerBrandLogoAlt || homepage?.footerBrand || FALLBACK_FOOTER_BRAND_LOGO_ALT;
+  const footerSocialLinks = normalizeFooterSocialLinks(homepage);
+  const footerLocations = normalizeFooterLocations(homepage);
+  const footerLinks = normalizeFooterLinks(homepage);
+  const footerCopyright = homepage?.footerCopyright || FALLBACK_FOOTER_COPYRIGHT;
 
   return (
     <SiteShell active="about" fluid>
@@ -349,15 +387,6 @@ export default async function Home() {
           </div>
         </section>
 
-        <section id="programs" className="mockup-programs mockup-section">
-          <div className="mockup-container">
-            <h2>{homepage?.platformSectionTitle || "Our Platform"}</h2>
-            <p className="mockup-section-subtitle">
-              {homepage?.platformSectionSubtitle || "Building ecosystems and developing talent"}
-            </p>
-          </div>
-        </section>
-
         <section id="resources" className="mockup-resources mockup-section">
           <div className="mockup-container">
             <h2>{homepage?.resourcesSectionTitle || "Resources & Insights"}</h2>
@@ -379,56 +408,63 @@ export default async function Home() {
           <div className="mockup-container">
             <div className="mockup-footer-content">
               <img
-                src={FOOTER_AVP_LOGO_URL}
-                alt="Advance Venture Partners"
+                src={footerBrandLogoUrl}
+                alt={footerBrandLogoAlt}
                 className="mockup-footer-avp-logo"
               />
               <div className="mockup-footer-social-row">
-                <a
-                  href={FOOTER_LINKEDIN_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Advance Venture Partners on LinkedIn"
-                  className="mockup-footer-social-link"
-                >
-                  <img
-                    src={FOOTER_LINKEDIN_LOGO_URL}
-                    alt="LinkedIn"
-                    className="mockup-footer-social-logo"
-                  />
-                </a>
-                <span className="mockup-footer-social-divider" aria-hidden="true">
-                  |
-                </span>
-                <a
-                  href={FOOTER_BLUESKY_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Advance Venture Partners on BlueSky"
-                  className="mockup-footer-social-link"
-                >
-                  <img
-                    src={FOOTER_BLUESKY_LOGO_URL}
-                    alt="BlueSky"
-                    className="mockup-footer-social-logo"
-                  />
-                </a>
+                {footerSocialLinks.map((item, index) => {
+                  const href = normalizeHref(item.url, "#");
+                  const label = item.label || "Social";
+                  const logoAlt = item.logoAlt || label;
+
+                  return (
+                    <Fragment key={`footer-social-${label}-${index}`}>
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`Advance Venture Partners on ${label}`}
+                        className="mockup-footer-social-link"
+                      >
+                        {item.logoUrl ? (
+                          <img
+                            src={item.logoUrl}
+                            alt={logoAlt}
+                            className="mockup-footer-social-logo"
+                          />
+                        ) : (
+                          <span>{label}</span>
+                        )}
+                      </a>
+                      {index < footerSocialLinks.length - 1 ? (
+                        <span className="mockup-footer-social-divider" aria-hidden="true">
+                          |
+                        </span>
+                      ) : null}
+                    </Fragment>
+                  );
+                })}
               </div>
               <p className="mockup-footer-location">
-                <span>San Francisco</span>
-                <span aria-hidden="true">|</span>
-                <span>New York</span>
+                {footerLocations.map((location, index) => (
+                  <Fragment key={`footer-location-${location}-${index}`}>
+                    <span>{location}</span>
+                    {index < footerLocations.length - 1 ? <span aria-hidden="true">|</span> : null}
+                  </Fragment>
+                ))}
               </p>
               <p className="mockup-footer-legal-links">
-                <a href="#terms" className="mockup-footer-link">
-                  Terms of Use
-                </a>
-                <span aria-hidden="true">|</span>
-                <a href="#privacy" className="mockup-footer-link">
-                  Privacy Policy
-                </a>
+                {footerLinks.map((item, index) => (
+                  <Fragment key={`footer-link-${item.label || "footer"}-${index}`}>
+                    <a href={normalizeHref(item.url, "#")} className="mockup-footer-link">
+                      {item.label || "Link"}
+                    </a>
+                    {index < footerLinks.length - 1 ? <span aria-hidden="true">|</span> : null}
+                  </Fragment>
+                ))}
               </p>
-              <p className="mockup-footer-copyright">©2026 Advance Venture Partners. All Rights Reserved.</p>
+              <p className="mockup-footer-copyright">{footerCopyright}</p>
             </div>
           </div>
         </footer>

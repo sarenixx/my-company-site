@@ -46,10 +46,16 @@ export const homepageQuery = groq`
       resourcesCtaText,
       resourcesCtaLink,
       footerBrand,
+      footerBrandLogoUrl,
+      footerBrandLogoAlt,
       footerEmail,
+      footerLocations,
+      footerCopyright,
       footerSocialLinks[]{
         label,
-        url
+        url,
+        logoUrl,
+        logoAlt
       },
       footerLinks[]{
         label,
@@ -144,10 +150,16 @@ export const homepageMockupQuery = groq`
       resourcesCtaText,
       resourcesCtaLink,
       footerBrand,
+      footerBrandLogoUrl,
+      footerBrandLogoAlt,
       footerEmail,
+      footerLocations,
+      footerCopyright,
       footerSocialLinks[]{
         label,
-        url
+        url,
+        logoUrl,
+        logoAlt
       },
       footerLinks[]{
         label,
@@ -199,6 +211,8 @@ export const investmentsQuery = groq`
     website,
     description,
     status,
+    category,
+    isFeatured,
     "logoUrl": coalesce(logo.asset->url, logoExternalUrl),
     "relatedNews": *[_type == "newsArticle" && references(^._id)] | order(coalesce(publishedAt, _createdAt) desc)[0...6]{
       _id,

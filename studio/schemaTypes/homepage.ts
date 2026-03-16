@@ -89,8 +89,9 @@ export const homepage = defineType({
             }),
             defineField({
               name: 'logoUrl',
-              title: 'Logo URL (Optional)',
-              type: 'url'
+              title: 'Logo URL / Path (Optional)',
+              description: 'Accepts full URL or local /public path from web app.',
+              type: 'string'
             }),
             defineField({
               name: 'logoAlt',
@@ -241,8 +242,30 @@ export const homepage = defineType({
       type: 'string'
     }),
     defineField({
+      name: 'footerBrandLogoUrl',
+      title: 'Footer Brand Logo URL / Path',
+      description: 'Accepts full URL or local /public path from web app.',
+      type: 'string'
+    }),
+    defineField({
+      name: 'footerBrandLogoAlt',
+      title: 'Footer Brand Logo Alt Text',
+      type: 'string'
+    }),
+    defineField({
       name: 'footerEmail',
       title: 'Footer Email',
+      type: 'string'
+    }),
+    defineField({
+      name: 'footerLocations',
+      title: 'Footer Locations',
+      type: 'array',
+      of: [{ type: 'string' }]
+    }),
+    defineField({
+      name: 'footerCopyright',
+      title: 'Footer Copyright',
       type: 'string'
     }),
     defineField({
@@ -262,6 +285,17 @@ export const homepage = defineType({
               name: 'url',
               title: 'URL',
               type: 'url'
+            }),
+            defineField({
+              name: 'logoUrl',
+              title: 'Logo URL / Path (Optional)',
+              description: 'Accepts full URL or local /public path from web app.',
+              type: 'string'
+            }),
+            defineField({
+              name: 'logoAlt',
+              title: 'Logo Alt Text',
+              type: 'string'
             })
           ],
           preview: {
