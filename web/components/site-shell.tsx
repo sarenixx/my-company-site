@@ -26,7 +26,7 @@ export function SiteShell({
         <div className="avp-container avp-nav-row">
           <Link href="/" className="avp-brand" aria-label="Advance Venture Partners home">
             <img
-              src="https://www.avp.vc/assets/images/branding/avp-logo.svg"
+              src="/avp-logo.svg"
               alt="Advance Venture Partners"
               className="avp-brand-logo"
             />
