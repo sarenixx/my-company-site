@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import styles from "./news-directory.module.css";
 
 export type NewsArticle = {
   _id: string;
@@ -42,7 +43,7 @@ function renderHighlightedCompanyName(name: string, normalizedQuery: string) {
   return (
     <>
       {name.slice(0, matchStart)}
-      <mark style={{ background: "#fff1b8", padding: 0 }}>{name.slice(matchStart, matchEnd)}</mark>
+      <mark className={styles.matchHighlight}>{name.slice(matchStart, matchEnd)}</mark>
       {name.slice(matchEnd)}
     </>
   );
@@ -89,6 +90,7 @@ export function NewsDirectory({
     if (selectedCompanyId === ALL_COMPANIES) return news;
     return news.filter((article) => article.relatedInvestmentId === selectedCompanyId);
   }, [news, selectedCompanyId]);
+  const showSuggestions = normalizedCompanySearch.length > 0;
 
   const resultCountLabel = `${filteredNews.length} ${filteredNews.length === 1 ? "article" : "articles"}`;
   const resultSummary = selectedCompanyName ? `${resultCountLabel} for ${selectedCompanyName}` : resultCountLabel;
@@ -105,16 +107,21 @@ export function NewsDirectory({
 
   return (
     <>
-      <section aria-label="News portfolio filter" style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1rem" }}>
-        <div style={{ width: "min(420px, 100%)", display: "grid", gap: "0.45rem" }}>
-          <label htmlFor="avp-news-company-search">Search portfolio companies</label>
-          <div style={{ position: "relative", display: "grid" }}>
+      <section aria-label="News portfolio filter" className={styles.filterSection}>
+        <div className={styles.filterCard}>
+          <label htmlFor="avp-news-company-search" className={styles.filterLabel}>
+            Search Portfolio Companies
+          </label>
+          <div className={styles.inputWrap}>
+            <span aria-hidden className={styles.searchIcon}>
+              ⌕
+            </span>
             <input
               id="avp-news-company-search"
               type="search"
               placeholder="Type to find a company"
               value={companySearch}
-              style={{ paddingRight: "2.25rem" }}
+              className={styles.filterInput}
               onKeyDown={(event) => {
                 if (event.key === "ArrowDown") {
                   if (!visibleSuggestions.length) return;
@@ -176,38 +183,14 @@ export function NewsDirectory({
                 type="button"
                 aria-label="Clear company search"
                 onClick={clearSearch}
-                style={{
-                  position: "absolute",
-                  right: "0.45rem",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  border: 0,
-                  background: "transparent",
-                  color: "#6b7280",
-                  cursor: "pointer",
-                  fontSize: "0.9rem",
-                  lineHeight: 1,
-                  padding: "0.15rem",
-                }}
+                className={styles.clearButton}
               >
                 Clear
               </button>
             ) : null}
           </div>
-          {normalizedCompanySearch ? (
-            <ul
-              aria-label="Matching companies"
-              role="listbox"
-              style={{
-                margin: 0,
-                padding: 0,
-                listStyle: "none",
-                border: "1px solid #e7e7e7",
-                maxHeight: "12rem",
-                overflowY: "auto",
-                background: "#fff",
-              }}
-            >
+          {showSuggestions ? (
+            <ul aria-label="Matching companies" role="listbox" className={styles.suggestionList}>
               {visibleSuggestions.length ? (
                 visibleSuggestions.map((company, index) => (
                   <li key={company._id}>
@@ -217,37 +200,28 @@ export function NewsDirectory({
                       aria-selected={index === effectiveActiveSuggestionIndex}
                       onMouseEnter={() => setActiveSuggestionIndex(index)}
                       onClick={() => chooseCompany(company)}
-                      style={{
-                        width: "100%",
-                        border: 0,
-                        background: index === effectiveActiveSuggestionIndex ? "#f3f4f6" : "#fff",
-                        color: "#212529",
-                        margin: 0,
-                        padding: "0.5rem 0.7rem",
-                        textAlign: "left",
-                        cursor: "pointer",
-                      }}
+                      className={`${styles.suggestionButton} ${
+                        index === effectiveActiveSuggestionIndex ? styles.suggestionButtonActive : ""
+                      }`}
                     >
                       {renderHighlightedCompanyName(company.companyName || "Untitled company", normalizedCompanySearch)}
                     </button>
                   </li>
                 ))
               ) : (
-                <li style={{ padding: "0.5rem 0.7rem", color: "#666", fontSize: "0.85rem" }}>
-                  No matching portfolio companies
-                </li>
+                <li className={styles.suggestionEmpty}>No matching portfolio companies</li>
               )}
             </ul>
           ) : null}
 
-          <p style={{ margin: "0.2rem 0 0", color: "#666", fontSize: "0.8rem", lineHeight: 1.25 }}>{resultSummary}</p>
+          <p className={styles.filterSummary}>{resultSummary}</p>
         </div>
       </section>
 
-      <section className="news-list-page" aria-label="News articles">
+      <section className="avp-news-list" aria-label="News articles">
         {filteredNews.length ? (
           filteredNews.map((article) => (
-            <article key={article._id} className="news-row">
+            <article key={article._id} className="avp-news-item">
               {article.externalUrl ? (
                 <a href={article.externalUrl} target="_blank" rel="noreferrer">
                   <h2>{article.title || "Untitled news item"}</h2>
@@ -256,7 +230,7 @@ export function NewsDirectory({
                 <h2>{article.title || "Untitled news item"}</h2>
               )}
 
-              <p className="news-meta">
+              <p className="avp-news-meta">
                 {article.sourcePublication || article.excerpt || "External"}
                 {article.publishedAt ? ` / ${formatDate(article.publishedAt)}` : ""}
                 {article.relatedInvestmentName ? ` / ${article.relatedInvestmentName}` : ""}
@@ -264,7 +238,7 @@ export function NewsDirectory({
             </article>
           ))
         ) : (
-          <p style={{ margin: 0, color: "#666", fontSize: "0.95rem", lineHeight: 1.6 }}>
+          <p className="avp-news-empty">
             No news articles match the selected portfolio company yet. Try a different company or reset to all.
           </p>
         )}

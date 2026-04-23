@@ -17,7 +17,7 @@ export default async function NewsPage() {
 
   return (
     <SiteShell active="news">
-      <main className="news-page">
+      <main className="avp-news-page">
         <NewsDirectory news={data.news} portfolioCompanies={data.portfolioCompanies} />
       </main>
     </SiteShell>

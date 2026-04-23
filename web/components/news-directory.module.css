@@ -1,0 +1,147 @@
+.filterSection {
+  width: min(1200px, 100%);
+  margin: 1.35rem auto 0;
+  padding: 0 2.5rem;
+}
+
+.filterCard {
+  width: min(480px, 100%);
+  display: grid;
+  gap: 0.5rem;
+}
+
+.filterLabel {
+  margin: 0;
+  color: var(--avp-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  font-family: "Roboto", Helvetica, Calibri, "Segoe UI", sans-serif;
+}
+
+.inputWrap {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--avp-muted);
+  font-size: 0.95rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.filterInput {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--avp-line);
+  background: transparent;
+  color: var(--avp-text);
+  padding: 0.5rem 4.1rem 0.5rem 1.45rem;
+  font-family: "Roboto", Helvetica, Calibri, "Segoe UI", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  border-radius: 0;
+}
+
+.filterInput:focus {
+  outline: none;
+  border-bottom-color: #bcbcbc;
+}
+
+.clearButton {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: var(--avp-muted);
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding: 0.15rem 0;
+  border-bottom: 1px solid transparent;
+}
+
+.clearButton:hover,
+.clearButton:focus-visible {
+  color: #000;
+  border-bottom-color: #bcbcbc;
+}
+
+.suggestionList {
+  margin: 0.1rem 0 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--avp-line);
+  border-radius: 0;
+  max-height: 13rem;
+  overflow-y: auto;
+  background: #fff;
+}
+
+.suggestionButton {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+  color: var(--avp-text);
+  margin: 0;
+  padding: 0.52rem 0.72rem;
+  text-align: left;
+  cursor: pointer;
+  font-family: "Roboto", Helvetica, Calibri, "Segoe UI", sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.25;
+}
+
+.suggestionList li:last-child .suggestionButton {
+  border-bottom: 0;
+}
+
+.suggestionButton:hover,
+.suggestionButton:focus-visible,
+.suggestionButtonActive {
+  background: #f7f7f7;
+}
+
+.suggestionEmpty {
+  padding: 0.55rem 0.72rem;
+  color: var(--avp-muted);
+  font-size: 0.82rem;
+  font-family: "Roboto", Helvetica, Calibri, "Segoe UI", sans-serif;
+}
+
+.matchHighlight {
+  background: transparent;
+  color: #000;
+  font-weight: 500;
+  padding: 0;
+  border-bottom: 1px solid #bcbcbc;
+}
+
+.filterSummary {
+  margin: 0.1rem 0 0;
+  color: var(--avp-muted);
+  font-size: 0.8rem;
+  line-height: 1.25;
+  font-family: "Roboto", Helvetica, Calibri, "Segoe UI", sans-serif;
+}
+
+@media (max-width: 767.98px) {
+  .filterSection {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .filterCard {
+    width: 100%;
+  }
+}
